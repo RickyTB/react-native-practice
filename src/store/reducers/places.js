@@ -1,8 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    places: [],
-    selectedPlace: null
+    places: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,18 +20,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.DELETE_PLACE:
             return {
                 ...state,
-                places: state.places.filter(place => place.key !== state.selectedPlace.key),
-                selectedPlace: null
-            };
-        case actionTypes.SELECT_PLACE:
-            return {
-                ...state,
-                selectedPlace: state.places.find(place => place.key === action.placeKey)
-            };
-        case actionTypes.DESELECT_PLACE:
-            return {
-                ...state,
-                selectedPlace: null
+                places: state.places.filter(place => place.key !== action.placeKey)
             };
         default:
             return state;
