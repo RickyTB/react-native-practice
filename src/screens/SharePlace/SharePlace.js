@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {Text, View} from "react-native";
+import {View, Button, StyleSheet, ScrollView} from "react-native";
 
-import PlaceInput from '../../components/PlaceInput/PlaceInput';
 import * as actions from '../../store/actions';
+import MainText from "../../components/UI/MainText/MainText";
+import HeadingText from "../../components/UI/HeadingText/HeadingText";
+import PlaceInput from "../../components/PlaceInput/PlaceInput";
+import PickImage from "../../components/PickImage/PickImage";
+import PickLocation from "../../components/PickLocation/PickLocation";
 
 class SharePlaceScreen extends Component {
+
+    state = {
+        placeName: ''
+    };
 
     constructor(props) {
         super(props);
@@ -22,19 +30,52 @@ class SharePlaceScreen extends Component {
         }
     };
 
-    placeAddedHandler = placeName => {
-        this.props.onAddPlace(placeName)
+    placeAddedHandler = () => {
+        if (this.state.placeName.trim() !== '') {
+            this.props.onAddPlace(this.state.placeName);
+        }
+    };
+
+    placeNameChangedHandler = value => {
+        this.setState({placeName: value});
     };
 
     render() {
         return (
-            <View>
-                <PlaceInput onPlaceAdded={this.placeAddedHandler}/>
-            </View>
+            <ScrollView>
+                <View style={styles.container}>
+                    <MainText>
+                        <HeadingText>Share a place with us!</HeadingText>
+                    </MainText>
+                    <PickImage/>
+                    <PickLocation/>
+                    <PlaceInput placeName={this.state.placeName} onChangeText={this.placeNameChangedHandler}/>
+                    <View style={styles.button}>
+                        <Button title="Share the place!" onPress={this.placeAddedHandler}/>
+                    </View>
+                </View>
+            </ScrollView>
         );
     }
 
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    placeholder: {
+        borderWidth: 1,
+        borderColor: 'black',
+        backgroundColor: '#eee',
+        width: '80%',
+        height: 150
+    },
+    button: {
+        margin: 8
+    }
+});
 
 export default connect(null, {
     onAddPlace: actions.addPlace
