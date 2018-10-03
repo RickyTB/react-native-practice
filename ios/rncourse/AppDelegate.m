@@ -13,6 +13,7 @@
 #import "RCCManager.h"
 
 #import <React/RCTRootView.h>
+@import GoogleMaps; //add this line if you want to use Google Maps
 
 @implementation AppDelegate
 
@@ -24,7 +25,7 @@
 #else
   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
-  
+  [GMSServices provideAPIKey:@""]; // add this line using the api key obtained from Google Console
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   self.window.backgroundColor = [UIColor whiteColor];
   [[RCCManager sharedInstance] initBridgeWithBundleURL:jsCodeLocation launchOptions:launchOptions];
